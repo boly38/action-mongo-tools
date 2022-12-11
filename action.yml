@@ -1,0 +1,38 @@
+name: 'action-mongo-tools'
+author: boly38
+description: 'Github action to install mongoDB database mongo-shell and/or mongo tools (mongodump mongorestore..)'
+branding: # https://github.com/haya14busa/github-action-brandings
+  icon: 'package'
+  color: 'gray-dark'
+inputs: # https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#inputsinput_iddefault
+  mongo-shell:
+    description: 'Install mongo-shell ? "true" is default value. Else skip.'
+    required: true
+    default: "true"
+  mongo-tools:
+    description: 'Install mongo-tools ? "true" is default value. Else skip.'
+    required: true
+    default: "true"
+runs:
+  using: "composite"
+  steps:
+    - name: Mongo-shell
+      run: |
+        if [[ ${{ inputs.mongo-shell }} = "true" ]]
+        then
+          echo "Setup mongo-shell"
+          ${{ github.action_path }}/setupMongoShell.sh 
+        else
+          echo "Skip mongo-shell setup"
+        fi
+      shell: bash
+    - name: Mongo-tools
+      run: |
+        if [[ ${{ inputs.mongo-tools }} = "true" ]]
+        then
+          echo "Setup mongo-tools"
+          ${{ github.action_path }}/setupMongoTools.sh 
+        else
+          echo "Skip mongo-tools setup"
+        fi
+      shell: bash
