@@ -1,7 +1,7 @@
 #!/bin/bash
 # Setup mongosh - src: https://www.mongodb.com/docs/mongodb-shell/install/
 if [ ! -f ./.setupMongoKeys ]; then
-  ./setupMongoKeys.sh
+  $(dirname "$0")/setupMongoKeys.sh
 fi
 
 echo "aptitude install mongodb-mongosh"
