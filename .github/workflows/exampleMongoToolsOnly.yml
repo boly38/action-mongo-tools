@@ -1,0 +1,29 @@
+# mongotools example to install mongo tools only
+name: action-mongo-tools-exampleMongoToolsOnly
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  mongo-tools-example-steps:
+    runs-on: ubuntu-22.04
+
+    services:
+      mongodb:
+        image: mongo
+        ports:
+          - 27017:27017
+
+    steps:
+      - name: Setup mongo tools - only mongo-tools
+        uses: boly38/action-mongo-tools@stable
+        with:
+          mongo-shell: "false"
+
+      - name: Mongo-tools usage
+        run: |
+          mongodump --version  
+          mongorestore --version

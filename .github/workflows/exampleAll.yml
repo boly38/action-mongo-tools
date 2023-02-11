@@ -1,0 +1,36 @@
+# mongotools example to install all
+name: action-mongo-tools-exampleAll
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  mongo-tools-example-steps:
+    # The type of runner that the job will run on https://github.com/actions/runner-images/tree/main/images/linux
+    runs-on: ubuntu-22.04
+
+    services:
+      mongodb:
+        image: mongo
+        ports:
+          - 27017:27017
+
+    steps:
+      # action-mongo-tools without parameters install both : mongo-tools and mongo-shell
+      - name: Setup mongo tools - mongo-tools and mongo-shell
+        uses: boly38/action-mongo-tools@stable
+
+      - name: Mongo-shell usage - setup mongo user
+        # doc: https://docs.mongodb.com/manual/reference/built-in-roles/ "Backup and Restoration Roles"
+        # doc: https://docs.mongodb.com/manual/reference/method/db.createUser/
+        run: |
+          mongosh --version
+          mongosh admin --eval 'db.createUser({user:"root",pwd:"mypass",roles:[{"role":"readWrite","db":"myDbForTest"}, "restore"]});'        
+
+      - name: Mongo-tools usage
+        run: |
+          mongodump --version  
+          mongorestore --version

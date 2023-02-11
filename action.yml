@@ -17,6 +17,7 @@ runs:
   using: "composite"
   steps:
     - name: Mongo-shell
+    - name: Mongo-shell
       run: |
         if [[ ${{ inputs.mongo-shell }} = "true" ]]
         then

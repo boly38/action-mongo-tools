@@ -23,7 +23,7 @@ Example that will install `mongosh` only
 ```
 NB: `true` is default value for parameters so could be omitted.
 
-Another working sample: cf. [example.yml](./.github/workflows/example.yml)
+Another working sample: cf. [examples](./.github/workflows/)
 
 # contributing
 PRs extending the functionality are welcome and will be reviewed.
