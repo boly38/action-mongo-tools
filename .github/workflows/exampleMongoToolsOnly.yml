@@ -2,10 +2,7 @@
 name: action-mongo-tools-exampleMongoToolsOnly
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-  workflow_dispatch:
+  workflow_dispatch:  # allow manual trigger only for example
 
 jobs:
   mongo-tools-example-steps:
