@@ -1,0 +1,62 @@
+name: Integration Tests
+
+on:
+  pull_request:
+  workflow_dispatch:  # allow manual trigger
+
+jobs:
+  test-action:
+    runs-on: ubuntu-latest
+    
+    services:
+      mongodb:
+        image: mongo
+        ports:
+          - 27017:27017
+
+    steps:
+      - uses: actions/checkout@v3
+      
+      # Test local action
+      - name: Test local action
+        uses: ./
+        
+      - name: Verify installation
+        run: |
+          # mongo-tools
+          mongodump --version
+          mongorestore --version
+          
+          # mongo-shell
+          mongosh --version
+          
+      - name: Functional test
+        run: |
+          echo "💥 Create test user"
+          mongosh admin --eval 'db.createUser({user:"testuser",pwd:"testpass",roles:[{role:"readWrite",db:"testdb"}]});'
+          
+          echo "💥 Create testdb with testcollection and one doc"
+          mongosh testdb --quiet --eval 'db.testcollection.insertOne({test: "data"});'
+          
+          echo "💥 mongodump"
+          mongodump --db testdb --out ./dump
+          
+          echo "🔎 check dump exists"
+          if [ ! -d "./dump/testdb" ]; then
+            echo "Dump failed"
+            exit 1
+          fi
+          
+          echo "💥 Drop db"
+          mongosh testdb --eval 'db.dropDatabase();'
+          
+          echo "💥 Restore it"
+          mongorestore ./dump
+          
+          echo "🔎 check restored data"
+          COUNT=$(mongosh testdb --quiet --eval 'db.testcollection.countDocuments()')
+          if [ "$COUNT" != "1" ]; then
+            echo "Restore verification failed - count:$COUNT"
+            exit 1
+          fi
+          echo "✅ This is fine 😁"
