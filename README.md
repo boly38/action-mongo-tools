@@ -31,5 +31,11 @@ env:
   MONGOTOOLS_KEEP_MAN: true
 ```
 
+# Immutable releases 
+
+For security reason, since #8, this repository rely on [immutable releases](https://docs.github.com/en/code-security/supply-chain-security/understanding-your-software-supply-chain/immutable-releases). 
+Instead of using `@stable` as tag, you could rely on fixed immutable release (ex. `@v1.0.4`). 
+
 # contributing
-PRs extending the functionality are welcome and will be reviewed.
+- PRs extending the functionality are welcome and will be reviewed.
+- more details on [CONTRIBUTING](./.github/CONTRIBUTING.md) and [TESTING](./TESTING.md)
