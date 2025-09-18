@@ -20,7 +20,10 @@ jobs:
       # Test local action
       - name: Test local action
         uses: ./
-        
+        # for performance reason, by default MAN/DOC install are skipped, you could re-activate them with :
+        #        env:
+        #          MONGOTOOLS_KEEP_MAN: true
+
       - name: Verify installation
         run: |
           # mongo-tools
@@ -32,13 +35,13 @@ jobs:
           
       - name: Functional test
         run: |
-          echo "💥 Create test user"
+          echo "⚡ Create test user"
           mongosh admin --eval 'db.createUser({user:"testuser",pwd:"testpass",roles:[{role:"readWrite",db:"testdb"}]});'
           
-          echo "💥 Create testdb with testcollection and one doc"
+          echo "⚡ Create testdb with testcollection and one doc"
           mongosh testdb --quiet --eval 'db.testcollection.insertOne({test: "data"});'
           
-          echo "💥 mongodump"
+          echo "⚡ mongodump"
           mongodump --db testdb --out ./dump
           
           echo "🔎 check dump exists"
@@ -47,10 +50,10 @@ jobs:
             exit 1
           fi
           
-          echo "💥 Drop db"
+          echo "⚡ Drop db"
           mongosh testdb --eval 'db.dropDatabase();'
           
-          echo "💥 Restore it"
+          echo "⚡ Restore it"
           mongorestore ./dump
           
           echo "🔎 check restored data"
