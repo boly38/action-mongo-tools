@@ -23,7 +23,13 @@ Example that will install `mongosh` only
 ```
 NB: `true` is default value for parameters so could be omitted.
 
-Another working sample: cf. [examples](./.github/workflows/)
+Another working sample: cf. [examples](./.github/workflows/).
+
+For install performance reason, man/doc are not unpack by default. You can override this by keeping them with
+```
+env:
+  MONGOTOOLS_KEEP_MAN: true
+```
 
 # contributing
 PRs extending the functionality are welcome and will be reviewed.
