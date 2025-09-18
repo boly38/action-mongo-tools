@@ -39,3 +39,10 @@ Instead of using `@stable` as tag, you could rely on fixed immutable release (ex
 # contributing
 - PRs extending the functionality are welcome and will be reviewed.
 - more details on [CONTRIBUTING](./.github/CONTRIBUTING.md) and [TESTING](./TESTING.md)
+
+# use cases
+
+## NodeJS automate backup policy
+This action adds some binaries used by project having mongo as dependencies.
+
+For example, cf. [boly38/node-mongotools](https://github.com/boly38/node-mongotools) which is a node wrapper for mongo dump/restore binaries and let you create your own mongo backup using NodeJS App, then GitHub Actions.
